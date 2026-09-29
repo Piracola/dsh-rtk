@@ -14,12 +14,29 @@
 
 ## 安装
 
+从 GitHub 装（推荐，升级只需一条 `update`）：
+
 ```bash
-dsh plugin --profile <profile> add file:<本仓库绝对路径>
-# 例：dsh plugin --profile web add file:I:/JBCode/Test/dsh-rtk
+dsh plugin --profile web add github:Piracola/dsh-rtk
+dsh plugin --profile web update dsh-rtk-thin    # 以后更新
 ```
 
-装完重启 dsh（插件在启动时加载）。
+本地开发模式（改完立即生效，不用重装）：
+
+```bash
+dsh plugin --profile web add "link:<本仓库绝对路径>"
+```
+
+装完即生效：本机 `web` profile 是 `patchReload: live`，`dsh plugin add` 会顺带把
+`dsh-rtk-thin` 追加进 `dsh.profile.bundles`，实测**无需重启 dsh**（跑一条 `git status`，
+输出变成 rtk 的紧凑格式即为生效）。没生效再重启。
+
+若 pnpm 的供应链策略拦住安装（`ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION`，通常是
+lockfile 里别的包发布不满 24 小时），用 `--config.minimumReleaseAge=0` 过这一次：
+
+```bash
+dsh plugin --profile web add --config.minimumReleaseAge=0 github:Piracola/dsh-rtk
+```
 
 ## 配置
 
