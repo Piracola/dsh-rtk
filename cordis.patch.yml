@@ -1,0 +1,8 @@
+# dsh-rtk-thin — thin RTK command rewriting for the mounted shell executor.
+# Adds the plugin to the composition; it injects `shell` and wraps resolve().
+- insert:
+    - id: rtk-thin
+      name: dsh-rtk-thin
+      # config:
+      #   rtkExe: C:\\Users\\you\\.cargo\\bin\\rtk.exe   # default: RTK_EXE env, then PATH
+      #   denySubcommands: [ls, tree, pwd, cat, wc, grep]     # default shown

@@ -1,0 +1,33 @@
+{
+  "name": "dsh-rtk-thin",
+  "version": "0.2.0",
+  "description": "Thin RTK integration for DeepSeek Harness: rewrites simple shell commands through `rtk rewrite` at the shell executor resolve() boundary. Zero harness internals, identity fallback.",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "rtk",
+    "deepseek-harness",
+    "token-savings"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}
