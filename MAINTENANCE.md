@@ -25,8 +25,10 @@ rtk find . -name "*.md" ; rtk read package.json
 ## 3. 自测
 
 ```bash
-node -e "import('file:///<repo>/index.js').then(m=>{for(const c of ['git status','cat package.json','ls -la','git status | grep x'])console.log(c,'=>',m.rewriteWithRtk(c))})"
+node -e "import('file:///<repo>/index.js').then(m=>{for(const c of ['git status','cat package.json','ls -la','git status | grep x','git status; git log -3'])console.log(c,'=>',m.rewriteWithRtk(c))})"
 ```
+
+预期：第 1、2 条加上 `rtk` 前缀；第 3、4 条原样输出；第 5 条逐段改写成 `rtk git status; rtk git log -3`。
 
 ## 回滚
 

@@ -1,7 +1,7 @@
 {
   "name": "dsh-rtk-thin",
-  "version": "0.2.0",
-  "description": "Thin RTK integration for DeepSeek Harness: rewrites simple shell commands through `rtk rewrite` at the shell executor resolve() boundary. Zero harness internals, identity fallback.",
+  "version": "0.3.0",
+  "description": "Thin RTK integration for DeepSeek Harness: rewrites simple shell commands and command lists through `rtk rewrite` at the shell executor resolve() boundary. Zero harness internals, identity fallback.",
   "type": "module",
   "main": "./index.js",
   "exports": {

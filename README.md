@@ -57,13 +57,24 @@ dsh plugin --profile web add --config.minimumReleaseAge=0 github:Piracola/dsh-rt
 | `cat package.json` | `rtk read package.json` |
 | `find . -name *.md` | `rtk find . -name *.md` |
 | `ls -la` / `pwd` / `wc -l x` / `grep -rn foo .` / `tree .` | 原样不动（这些 rtk 子命令在 Windows 上会失败） |
-| `git status \| grep x` / `a && b` | 原样不动（含 shell 元字符，避免改变管道语义） |
+| `git status; git log -3` / `a && b` / 换行分隔的多行命令 | 逐段改写：`rtk git status; rtk git log -3` |
+| `git status \| grep x` | 原样不动（管道：rtk 压缩输出后，下游命令的匹配会变） |
+| `$x = 1; git status` / `if (...) { ... }` / `cmd > out.txt` | 原样不动（变量、代码块、重定向不参与拼接，避免改坏语法） |
 | `echo hello` | 原样不动（rtk 无等价形式） |
+
+### 改写粒度
+
+一段命令按 `;`、换行、`&&`、`||` 切成若干段，**只替换命令文本，分隔符一个字节都不动**。所以：
+
+- 某一段能被改写、另一段不能，就只改那一段，整条命令照常跑
+- 超过 8 段整条放过，避免一条长脚本连续 fork 多次 rtk
+- 带反引号、`$`、括号、花括号、`@`、`<`、`>` 或裸 `&` 的命令一律不动
+- 结果按命令文本缓存，同一条命令重复执行只在第一次 fork rtk
 
 自测（不需要 dsh 在跑）：
 
 ```bash
-node -e "import('file:///<仓库路径>/index.js').then(m=>console.log(m.rewriteWithRtk('git status')))"
+node -e "import('file:///<仓库路径>/index.js').then(m=>console.log(m.rewriteWithRtk('git status; git log -3')))"
 ```
 
 ## License
