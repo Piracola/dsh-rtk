@@ -193,7 +193,8 @@ export function apply(ctx, config) {
     }
     return spec
   }
-  Object.defineProperty(shell, PATCHED, { value: true, enumerable: false })
+  // configurable, or the disposer below cannot remove the marker: `delete` throws in ESM.
+  Object.defineProperty(shell, PATCHED, { value: true, enumerable: false, configurable: true })
   ctx.effect(() => () => {
     shell.resolve = original
     delete shell[PATCHED]
